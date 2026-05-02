@@ -6,6 +6,10 @@ This section covers essential control flow structures in Go programming language
 1. [For Loops](#for-loops)
 2. [If-Else Statements](#if-else-statements)
 3. [Switch Statements](#switch-statements)
+4. [Range Loops](#range-loops) ⭐ NEW
+5. [Break & Continue](#break--continue-statements) ⭐ NEW
+6. [Logical Operators](#logical-operators) ⭐ NEW
+7. [Practical Project](#practical-project)
 
 ---
 
@@ -172,6 +176,199 @@ checkType("Hello")
 
 ---
 
+## Range Loops
+
+**File:** `4-range-loops/main.go`
+
+### Overview
+Range loops are the most common and idiomatic way to iterate in Go. The `range` keyword works with slices, arrays, maps, strings, and channels, returning the index/key and value for each iteration.
+
+### Key Concepts:
+- **Range over slices**: Iterate through array elements with index and value
+- **Range over maps**: Iterate through key-value pairs
+- **Range over strings**: Iterate through characters (runes)
+- **Blank identifier (_)**: Skip unwanted values (index or value)
+- **Index only**: Use range to get just the position
+- **Value only**: Ignore index, process only the value
+
+### Example Code:
+```go
+// Range over slice
+fruits := []string{"Apple", "Banana", "Cherry"}
+for index, fruit := range fruits {
+    fmt.Printf("Index: %d, Name: %s\n", index, fruit)
+}
+
+// Range over map
+students := map[string]int{
+    "Alice": 95,
+    "Bob":   87,
+}
+for name, grade := range students {
+    fmt.Printf("Student: %s, Grade: %d\n", name, grade)
+}
+
+// Range over string
+message := "Hello"
+for index, char := range message {
+    fmt.Printf("Position: %d, Character: %c\n", index, char)
+}
+
+// Using blank identifier to skip index
+for _, fruit := range fruits {
+    fmt.Printf("Fruit: %s\n", fruit)
+}
+```
+
+### Learning Points:
+- Range is the idiom ic way to iterate in Go
+- Always returns two values: index/key and element/value
+- Use underscore `_` to ignore unwanted values
+- Range over strings gives you rune positions and characters
+- Range over maps returns keys and values in random order
+- Most performant and readable looping method
+
+---
+
+## Break & Continue Statements
+
+**File:** `5-break-continue/main.go`
+
+### Overview
+Break and continue statements give you fine-grained control over loop execution. They allow you to exit loops early or skip iterations based on conditions.
+
+### Key Concepts:
+- **Break**: Immediately exit/terminate the current loop
+- **Continue**: Skip the current iteration and go to the next one
+- **Labeled break**: Exit from outer loops (advanced)
+- **Early termination**: Stop processing when condition is met
+- **Conditional skipping**: Skip iterations that don't meet criteria
+
+### Example Code:
+```go
+// Break - exit loop when condition is met
+for i := 1; i <= 10; i++ {
+    if i == 5 {
+        fmt.Println("Breaking at 5")
+        break // Exit loop immediately
+    }
+    fmt.Printf("%d ", i)
+}
+
+// Continue - skip to next iteration
+for i := 1; i <= 10; i++ {
+    if i%2 == 0 {
+        continue // Skip even numbers
+    }
+    fmt.Printf("%d ", i) // Only prints odd numbers
+}
+
+// Labeled break (advanced)
+OuterLoop:
+for i := 1; i <= 3; i++ {
+    for j := 1; j <= 3; j++ {
+        if i == 2 && j == 2 {
+            break OuterLoop // Breaks out of outer loop
+        }
+    }
+}
+```
+
+### Learning Points:
+- Break exits only the innermost loop
+- Continue only affects the current loop iteration
+- Labeled break can exit outer loops (use sparingly)
+- Combine with conditions for powerful flow control
+- Essential for early termination of searches or validations
+- Helps write efficient and readable code
+
+---
+
+## Logical Operators
+
+**File:** `6-logical-operators/main.go`
+
+### Overview
+Logical operators combine multiple boolean conditions, allowing you to create complex decision-making logic. Go supports AND, OR, and NOT operators with important optimization features.
+
+### Key Concepts:
+- **AND (&&)**: Both conditions must be TRUE
+- **OR (||)**: At least one condition must be TRUE
+- **NOT (!)**: Negates/inverts a boolean value
+- **Short-circuit evaluation**: Optimizer skips unnecessary evaluations
+- **Operator precedence**: ! > && > ||
+- **De Morgan's Laws**: Mathematical principles for logical equivalence
+
+### Example Code:
+```go
+// AND operator - both conditions must be true
+age := 25
+income := 50000
+if age >= 21 && income >= 30000 {
+    fmt.Println("Eligible for loan")
+}
+
+// OR operator - at least one condition must be true
+day := "Saturday"
+if day == "Saturday" || day == "Sunday" {
+    fmt.Println("It's weekend!")
+}
+
+// NOT operator - negates the condition
+isRaining := true
+if !isRaining {
+    fmt.Println("It's not raining, go outside!")
+}
+
+// Combining operators (use parentheses for clarity)
+score := 85
+attendance := 95
+if (score >= 80 && attendance >= 90) || hasExcuse {
+    fmt.Println("Eligible for exception")
+}
+```
+
+### Learning Points:
+- AND (&&) has higher precedence than OR (||) - can cause unexpected results without parentheses
+- Use parentheses to make complex conditions clear and maintainable
+- Short-circuit evaluation improves performance (AND stops if first is false, OR stops if first is true)
+- De Morgan's Laws can simplify complex boolean logic
+- Avoid overly complex nested conditions - break them into multiple if statements instead
+- Use meaningful variable names to make conditions self-documenting
+
+---
+
+## Practical Project
+
+**File:** `project/main.go`
+
+### Overview
+This real-world project demonstrates how to combine all the control flow concepts learned in this section into a practical application.
+
+### What It Does:
+- Manages product inventory with prices and sales
+- Calculates order totals
+- Applies discounts to sale items
+- Validates product existence
+- Uses maps, loops, conditionals, and functions together
+
+### Key Techniques Used:
+- Maps for data storage
+- Range loops for iteration
+- Conditional logic with if-else
+- String manipulation
+- Functions with error handling (ok idiom)
+- Real-world calculations
+
+### Learning Points:
+- Combining multiple concepts in a single application
+- Practical error handling patterns
+- Working with Go's standard library (strings package)
+- Realistic business logic implementation
+- Clean code organization with helper functions
+
+---
+
 ## How to Run
 
 To run any of these examples:
@@ -185,23 +382,76 @@ For example:
 ```bash
 cd section_2/1-foor-loop
 go run main.go
+
+cd section_2/4-range-loops
+go run main.go
+
+cd section_2/5-break-continue
+go run main.go
+
+cd section_2/6-logical-operators
+go run main.go
+
+cd section_2/project
+go run main.go
 ```
 
 ---
 
 ## Summary
 
-This section introduces the fundamental control flow structures in Go:
-- **Loops** help repeat code blocks
-- **Conditionals (if-else)** allow decision making
-- **Switches** provide elegant multi-way branching
+This comprehensive section covers all fundamental control flow structures in Go:
 
-Mastering these constructs is essential for writing effective Go programs!
+**Basic Loops:**
+- **For Loops** - C-style, while-style, and infinite loops
+- **Range Loops** - Idiomatic iteration over collections ⭐ NEW
+
+**Decision Making:**
+- **If-Else** - Basic and chained conditionals
+- **Switch** - Multi-way branching
+- **Logical Operators** - Complex conditions with AND, OR, NOT ⭐ NEW
+
+**Flow Control:**
+- **Break & Continue** - Loop control and optimization ⭐ NEW
+
+**Real-World Application:**
+- **Practical Project** - Combining all concepts
+
+Mastering these constructs is essential for writing effective and idiomatic Go programs!
 
 ---
+
+## Progression Chart
+
+```
+Beginner Level:
+├── 1-for-loop        (C-style & while-style loops)
+├── 2-if-else         (Basic conditionals)
+└── 3-switch          (Multi-way branching)
+
+Intermediate Level:
+├── 4-range-loops     (Idiomatic iteration) ⭐ NEW
+├── 5-break-continue  (Flow control) ⭐ NEW
+├── 6-logical-operators (Complex conditions) ⭐ NEW
+└── project           (Practical application)
+```
 
 ## Related Resources
 - [Go For Loop Documentation](https://golang.org/doc/effective_go#for)
 - [Go If Statements Documentation](https://golang.org/doc/effective_go#if)
 - [Go Switch Statements Documentation](https://golang.org/doc/effective_go#switch)
+- [Go By Example - Range](https://gobyexample.com/range)
+- [Effective Go](https://golang.org/doc/effective_go)
+
+## Practice Tips
+
+1. **Run the code**: Don't just read - run each example and modify it
+2. **Combine concepts**: Try using range loops with conditionals
+3. **Avoid nested complexity**: Break complex logic into variables
+4. **Use break/continue wisely**: Don't overuse labeled breaks
+5. **Clear conditions**: Always use parentheses in complex logical expressions
+
+---
+
+**Next Steps:** After mastering control flow, explore functions, error handling, and data structures in the next sections!
 
