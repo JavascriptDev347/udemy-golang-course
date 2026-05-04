@@ -29,6 +29,16 @@ type BusinessEmployee struct {
 	IsActive  bool
 }
 
+func (e Employee) GetID() int {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (b BusinessEmployee) GetID() int {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (b BusinessEmployee) GetName() string {
 	return b.FirstName + " " + b.LastName
 }
