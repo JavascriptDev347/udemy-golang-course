@@ -14,7 +14,7 @@ func main() {
 	path2 := filepath.Join("config", "app.yml")
 	fmt.Println(path2)
 
-	fmt.Println("Base:", filepath.Base(path1)) // Get the base name of the path}
+	fmt.Println("Base:", filepath.Base(path1)) // Get the base name of the 2-path}
 	fmt.Println("Ext:", filepath.Ext(path1))
 
 	dirtyDir := "./users/./dir/../other_dir/./file.txt"
