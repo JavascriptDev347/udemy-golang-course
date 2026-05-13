@@ -10,9 +10,10 @@ import (
 )
 
 type application struct {
-	errorLog *log.Logger
-	infoLog  *log.Logger
-	userRepo UserRepository
+	errorLog    *log.Logger
+	infoLog     *log.Logger
+	userRepo    UserRepository
+	templateDir string
 }
 
 func main() {
@@ -24,9 +25,10 @@ func main() {
 	defer db.Close()
 
 	app := &application{
-		errorLog: log.New(os.Stderr, "ERROR: ", log.LstdFlags|log.Lshortfile|log.Lmicroseconds),
-		infoLog:  log.New(os.Stdout, "INFO: ", log.LstdFlags|log.Lshortfile|log.Lmicroseconds),
-		userRepo: NewSQLUserRepository(db),
+		errorLog:    log.New(os.Stderr, "ERROR: ", log.LstdFlags|log.Lshortfile|log.Lmicroseconds),
+		infoLog:     log.New(os.Stdout, "INFO: ", log.LstdFlags|log.Lshortfile|log.Lmicroseconds),
+		userRepo:    NewSQLUserRepository(db),
+		templateDir: "./templates",
 	}
 
 	fmt.Println("Connecting to database...")

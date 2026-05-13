@@ -18,9 +18,12 @@ var htmlContent string = `<!DOCTYPE html>
 `
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	homeContent := `<h1>Home Page</h1>`
-	homeContent = fmt.Sprintf(htmlContent, "Home", homeContent)
-	_, _ = w.Write([]byte(homeContent))
+	app.infoLog.Println("Home page visited")
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+
+	app.render(w, "index.html", nil)
 }
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {

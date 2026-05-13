@@ -3,11 +3,14 @@ package main
 import (
 	"html/template"
 	"net/http"
+	"path/filepath"
 )
 
 func (app *application) render(w http.ResponseWriter, filename string, data interface{}) {
 
-	tmpl, err := template.ParseFiles(filename)
+	fullPath := filepath.Join(app.templateDir, filename)
+
+	tmpl, err := template.ParseFiles(fullPath)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -15,6 +18,7 @@ func (app *application) render(w http.ResponseWriter, filename string, data inte
 
 	if err := tmpl.Execute(w, data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-	
+
 }
