@@ -14,6 +14,7 @@ type application struct {
 	infoLog     *log.Logger
 	userRepo    UserRepository
 	templateDir string
+	publicPath  string
 	tp          *TemplatesRenderer
 }
 
@@ -30,6 +31,7 @@ func main() {
 		infoLog:     log.New(os.Stdout, "INFO: ", log.LstdFlags|log.Lshortfile|log.Lmicroseconds),
 		userRepo:    NewSQLUserRepository(db),
 		templateDir: "./templates",
+		publicPath:  "./public",
 	}
 
 	app.tp = NewTemplatesRenderer(app.templateDir, true)

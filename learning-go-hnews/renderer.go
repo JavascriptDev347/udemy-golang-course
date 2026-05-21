@@ -27,9 +27,10 @@ func (t *TemplatesRenderer) Render(w http.ResponseWriter, templateName string, d
 	tmpl, err := t.getTemplate(templateName)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	if err := tmpl.Execute(w, data); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "base.html", data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
