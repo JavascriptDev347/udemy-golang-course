@@ -14,6 +14,7 @@ type application struct {
 	infoLog     *log.Logger
 	userRepo    UserRepository
 	templateDir string
+	tp          *TemplatesRenderer
 }
 
 func main() {
@@ -30,6 +31,8 @@ func main() {
 		userRepo:    NewSQLUserRepository(db),
 		templateDir: "./templates",
 	}
+
+	app.tp = NewTemplatesRenderer(app.templateDir, true)
 
 	fmt.Println("Connecting to database...")
 	if err := app.serve(); err != nil {

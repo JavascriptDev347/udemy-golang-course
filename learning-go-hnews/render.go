@@ -1,24 +1,13 @@
 package main
 
 import (
-	"html/template"
+	"errors"
 	"net/http"
-	"path/filepath"
 )
 
 func (app *application) render(w http.ResponseWriter, filename string, data interface{}) {
-
-	fullPath := filepath.Join(app.templateDir, filename)
-
-	tmpl, err := template.ParseFiles(fullPath)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	if app.tp == nil {
+		http.Error(w, errors.New("template render is not rendering").Error(), http.StatusInternalServerError)
 	}
-
-	if err := tmpl.Execute(w, data); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
+	app.tp.Render(w, filename, data)
 }
