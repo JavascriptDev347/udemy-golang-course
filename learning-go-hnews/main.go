@@ -43,12 +43,12 @@ func main() {
 }
 
 func connectToDatabase(name string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", name)
+	db, err := sql.Open("sqlite3", name) // registers driver, does NOT connect yet
 	if err != nil {
 		return nil, err
 	}
 
-	err = db.Ping()
+	err = db.Ping() // actually verifies the connection
 	if err != nil {
 		return nil, err
 	}
