@@ -14,11 +14,13 @@ func (app *application) logger(next http.Handler) http.Handler {
 	})
 }
 
-func (app *application) recoverPanic(next http.Handler) http.Handler {
+func (app *application) recover(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
-			w.Header().Set("Connection", "close")
-			app.serverError(w, fmt.Errorf("%s", recover()))
+			if err := recover(); err != nil {
+				w.Header().Set("Connection", "close")
+				app.serverError(w, fmt.Errorf("%s", err))
+			}
 		}()
 
 		next.ServeHTTP(w, r)

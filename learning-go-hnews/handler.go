@@ -6,11 +6,13 @@ import (
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println("Home page visited")
+	app.infoLog.Printf("Session data: %s", app.session.GetString(r, "UserID"))
 	app.render(w, "index.html", nil)
 }
 
 func (app *application) login(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println("Login page visited")
+	app.session.Put(r, "UserID", "russel")
 	app.render(w, "login.html", nil)
 }
 
