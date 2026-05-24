@@ -30,3 +30,9 @@ func (app *application) contact(writer http.ResponseWriter, request *http.Reques
 	app.infoLog.Println("Contact page visited")
 	app.render(writer, "contact.html", nil)
 }
+
+func (app *application) submit(w http.ResponseWriter, r *http.Request) {
+	app.infoLog.Println("Home page visited")
+	app.infoLog.Printf("Session data: %s", app.session.GetString(r, "UserID"))
+	app.render(w, "submit.html", nil)
+}
