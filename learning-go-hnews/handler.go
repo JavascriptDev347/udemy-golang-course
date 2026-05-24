@@ -12,7 +12,29 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) login(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println("Login page visited")
-	app.session.Put(r, "UserID", "russel")
+	if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
+		form := NewForm(r.PostForm)
+		form.Required("email", "password").
+			MaxLength("email", 255).
+			MaxLength("password", 255).
+			MinLength("password", 6).
+			MinLength("email", 3).
+			Matches("email", EmailRX)
+
+		if !form.Valid() {
+			app.errorLog.Printf("Form validation failed: %v", form.Errors)
+			app.render(w, "login.html", nil)
+		}
+		email := r.FormValue("email")
+		password := r.FormValue("password")
+
+		app.infoLog.Printf("Email: %s, Password: %s", email, password)
+	}
 	app.render(w, "login.html", nil)
 }
 
