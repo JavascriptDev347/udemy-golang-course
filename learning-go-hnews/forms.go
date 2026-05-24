@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/url"
 	"regexp"
 	"strings"
@@ -79,5 +80,18 @@ func (f *Form) Matches(field string, pattern *regexp.Regexp) *Form {
 	if !pattern.MatchString(value) {
 		f.Errors.Add(field, "This field is invalid")
 	}
+	return f
+}
+
+func (f *Form) IsEmail(field string) *Form {
+	value := f.Get(field)
+	if value == "" {
+		return f
+	}
+
+	if !EmailRX.MatchString(value) {
+		f.Errors.Add(field, fmt.Sprintf("This field %s is not a valid email address", field))
+	}
+
 	return f
 }

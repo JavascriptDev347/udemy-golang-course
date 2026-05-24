@@ -12,6 +12,22 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+//var schema = `
+//CREATE TABLE IF NOT EXISTS users (
+//	id              INTEGER PRIMARY KEY AUTOINCREMENT,
+//	name            TEXT NOT NULL,
+//	email           TEXT NOT NULL UNIQUE,
+//	hashed_password TEXT NOT NULL,
+//	created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+//);
+//
+//CREATE TABLE IF NOT EXISTS profile (
+//	user_id    INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+//	avatar     TEXT NOT NULL,
+//	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+//);
+//`
+
 type application struct {
 	errorLog    *log.Logger
 	infoLog     *log.Logger
@@ -26,11 +42,16 @@ var secret = []byte(`s3cr3t-k3y-asdas-dasdadasdasdas`)
 
 func main() {
 
-	db, err := connectToDatabase("users_database.db")
+	db, err := connectToDatabase("users_databases.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	//Initialize database tables
+	//if err := createTables(db); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	session := sessions.New(secret)
 	session.Lifetime = 12 * time.Hour
@@ -47,11 +68,11 @@ func main() {
 	}
 
 	app.tp = NewTemplatesRenderer(app.templateDir, true)
-
 	fmt.Println("Connecting to database...")
 	if err := app.serve(); err != nil {
 		log.Fatal(err)
 	}
+
 }
 
 func connectToDatabase(name string) (*sql.DB, error) {
@@ -67,3 +88,11 @@ func connectToDatabase(name string) (*sql.DB, error) {
 
 	return db, nil
 }
+
+//func createTables(db *sql.DB) error {
+//	_, err := db.Exec(schema)
+//	if err != nil {
+//		return err
+//	}
+//	return nil
+//}
