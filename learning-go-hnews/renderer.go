@@ -15,6 +15,12 @@ type TemplatesRenderer struct {
 	templateDir string
 }
 
+type templateData struct {
+	Form            Form
+	IsAuthenticated bool
+	Flash           string
+}
+
 func NewTemplatesRenderer(templateDir string, isDev bool) *TemplatesRenderer {
 	return &TemplatesRenderer{
 		templateDir: templateDir,
